@@ -1,0 +1,1412 @@
+debugParsing = true;
+HyPerCol "column" = {
+    checkpointWriteStepInterval = 100000;
+    checkpointWriteTriggerMode = "step";
+    nx = 32;
+    writeTimeScaleFieldnames = true;
+    suppressNonplasticCheckpoints = false;
+    checkpointWriteDir = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/output/checkpoints/";
+    randomSeed = 1234567890;
+    checkpointWrite = true;
+    dtScaleMin = 0.001;
+    dtAdaptTriggerOffset = 0;
+    outputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/output/";
+    errorOnNotANumber = false;
+    useAdaptMethodExp1stOrder = true;
+    dtChangeMax = 0.001;
+    checkpointIndexWidth = -1;
+    deleteOlderCheckpoints = false;
+    dtChangeMin = 1e-05;
+    dtAdaptController = "V1EnergyProbe";
+    stopTime = 308000;
+    filenamesContainLayerNames = 2;
+    writeProgressToErr = true;
+    initializeFromCheckpointDir = "";
+    dt = 1;
+    printParamsFilename = "pv.params";
+    dtMinToleratedTimeScale = 1e-05;
+    filenamesContainConnectionNames = 2;
+    defaultInitializeFromCheckpointFlag = false;
+    verifyWrites = false;
+    ny = 32;
+    dtAdaptFlag = true;
+    startTime = 0;
+    dtScaleMax = 0.01;
+    nbatch = 32;
+    progressInterval = 100000;
+    dtAdaptTriggerLayerName = "LeftImageAxis0";
+    writeTimescales = true;
+};
+
+IdentConn "LeftReconToErrorAxis2" = {
+    channelCode = 1;
+    preLayerName = "LeftReconAxis2";
+    delay = [0];
+    postLayerName = "LeftErrorAxis2";
+};
+
+IdentConn "RightReconToErrorAxis1" = {
+    channelCode = 1;
+    preLayerName = "RightReconAxis1";
+    delay = [0];
+    postLayerName = "RightErrorAxis1";
+};
+
+Movie "LeftImageAxis3" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesLeft3.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+ANNNormalizedErrorLayer "RightErrorAxis3" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+MomentumConn "V1ToLeftErrorAxis1" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "LeftImageAxis1";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "LeftErrorAxis1";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+MomentumConn "V1ToRightErrorAxis1" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "RightImageAxis1";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "RightErrorAxis1";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+RescaleConn "LeftImageToLeftErrorAxis1" = {
+    channelCode = 0;
+    preLayerName = "LeftImageAxis1";
+    delay = [0];
+    postLayerName = "LeftErrorAxis1";
+    scale = 0.018042195912176;
+};
+
+RescaleConn "RightImageToRightErrorAxis0" = {
+    channelCode = 0;
+    preLayerName = "RightImageAxis0";
+    delay = [0];
+    postLayerName = "RightErrorAxis0";
+    scale = 0.018042195912176;
+};
+
+ANNNormalizedErrorLayer "RightErrorAxis1" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+RescaleConn "RightImageToRightErrorAxis3" = {
+    channelCode = 0;
+    preLayerName = "RightImageAxis3";
+    delay = [0];
+    postLayerName = "RightErrorAxis3";
+    scale = 0.018042195912176;
+};
+
+ANNLayer "LeftReconAxis3" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+CloneConn "V1ToRightReconAxis1" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToRightErrorAxis1";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "RightReconAxis1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+ANNNormalizedErrorLayer "LeftErrorAxis1" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+RescaleConn "LeftImageToLeftErrorAxis2" = {
+    channelCode = 0;
+    preLayerName = "LeftImageAxis2";
+    delay = [0];
+    postLayerName = "LeftErrorAxis2";
+    scale = 0.018042195912176;
+};
+
+RescaleConn "RightImageToRightErrorAxis1" = {
+    channelCode = 0;
+    preLayerName = "RightImageAxis1";
+    delay = [0];
+    postLayerName = "RightErrorAxis1";
+    scale = 0.018042195912176;
+};
+
+ANNLayer "RightReconAxis1" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+RescaleConn "RightImageToRightErrorAxis2" = {
+    channelCode = 0;
+    preLayerName = "RightImageAxis2";
+    delay = [0];
+    postLayerName = "RightErrorAxis2";
+    scale = 0.018042195912176;
+};
+
+IdentConn "LeftReconToErrorAxis3" = {
+    channelCode = 1;
+    preLayerName = "LeftReconAxis3";
+    delay = [0];
+    postLayerName = "LeftErrorAxis3";
+};
+
+L2NormProbe "LeftErrorL2NormEnergyProbeAxis1" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "LeftErrorAxis1";
+    probeOutputFile = "LeftErrorL2NormEnergyProbeAxis1.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+ANNLayer "LeftReconAxis1" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+ANNLayer "RightReconAxis3" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+MomentumConn "V1ToRightErrorAxis0" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "RightImageAxis0";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "RightErrorAxis0";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+RescaleConn "LeftImageToLeftErrorAxis3" = {
+    channelCode = 0;
+    preLayerName = "LeftImageAxis3";
+    delay = [0];
+    postLayerName = "LeftErrorAxis3";
+    scale = 0.018042195912176;
+};
+
+HyPerLCALayer "V1" = {
+    writeStep = 76999.75;
+    phase = 2;
+    AShift = 0.02;
+    mirrorBCflag = false;
+    nxScale = 0.03125;
+    AMax = infinity;
+    InitVType = "ConstantV";
+    nf = 8192;
+    selfInteract = true;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    writeSparseValues = true;
+    sparseLayer = true;
+    updateGpu = true;
+    AMin = 0;
+    VThresh = 0.02;
+    initialWriteTime = 0;
+    valueV = 0.02;
+    valueBC = 0;
+    nyScale = 0.03125;
+};
+
+L2NormProbe "RightErrorL2NormEnergyProbeAxis0" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "RightErrorAxis0";
+    probeOutputFile = "RightErrorL2NormEnergyProbeAxis0.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+ANNLayer "RightReconAxis2" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+L2NormProbe "RightErrorL2NormEnergyProbeAxis1" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "RightErrorAxis1";
+    probeOutputFile = "RightErrorL2NormEnergyProbeAxis1.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+ColumnEnergyProbe "V1EnergyProbe" = {
+    textOutputFlag = true;
+    probeOutputFile = "V1EnergyProbe.txt";
+};
+
+IdentConn "RightReconToErrorAxis2" = {
+    channelCode = 1;
+    preLayerName = "RightReconAxis2";
+    delay = [0];
+    postLayerName = "RightErrorAxis2";
+};
+
+TransposeConn "RightErrorToV1Axis3" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "RightErrorAxis3";
+    originalConnName = "V1ToRightErrorAxis3";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+Movie "RightImageAxis0" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesRight0.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+ANNLayer "LeftReconAxis0" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+MomentumConn "V1ToRightErrorAxis2" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "RightImageAxis2";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "RightErrorAxis2";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+TransposeConn "LeftErrorToV1Axis1" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "LeftErrorAxis1";
+    originalConnName = "V1ToLeftErrorAxis1";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+CloneConn "V1ToRightReconAxis0" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToRightErrorAxis0";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "RightReconAxis0";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+ANNNormalizedErrorLayer "LeftErrorAxis3" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+L2NormProbe "RightErrorL2NormEnergyProbeAxis3" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "RightErrorAxis3";
+    probeOutputFile = "RightErrorL2NormEnergyProbeAxis3.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+MomentumConn "V1ToLeftErrorAxis0" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "LeftImageAxis0";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "LeftErrorAxis0";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+ANNNormalizedErrorLayer "LeftErrorAxis0" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+Movie "RightImageAxis1" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesRight1.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+Movie "LeftImageAxis1" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesLeft1.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+ANNLayer "RightReconAxis0" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+IdentConn "RightReconToErrorAxis3" = {
+    channelCode = 1;
+    preLayerName = "RightReconAxis3";
+    delay = [0];
+    postLayerName = "RightErrorAxis3";
+};
+
+L2NormProbe "LeftErrorL2NormEnergyProbeAxis3" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "LeftErrorAxis3";
+    probeOutputFile = "LeftErrorL2NormEnergyProbeAxis3.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+CloneConn "V1ToRightReconAxis3" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToRightErrorAxis3";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "RightReconAxis3";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+MomentumConn "V1ToRightErrorAxis3" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "RightImageAxis3";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "RightErrorAxis3";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+CloneConn "V1ToLeftReconAxis3" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToLeftErrorAxis3";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "LeftReconAxis3";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+ANNNormalizedErrorLayer "RightErrorAxis0" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+ANNLayer "LeftReconAxis2" = {
+    writeStep = 76999.75;
+    phase = 3;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    clearGSynInterval = 0;
+    VWidth = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+TransposeConn "RightErrorToV1Axis0" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "RightErrorAxis0";
+    originalConnName = "V1ToRightErrorAxis0";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+CloneConn "V1ToRightReconAxis2" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToRightErrorAxis2";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "RightReconAxis2";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+IdentConn "LeftReconToErrorAxis1" = {
+    channelCode = 1;
+    preLayerName = "LeftReconAxis1";
+    delay = [0];
+    postLayerName = "LeftErrorAxis1";
+};
+
+Movie "LeftImageAxis2" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesLeft2.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+ANNNormalizedErrorLayer "RightErrorAxis2" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+Movie "RightImageAxis3" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesRight3.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+L2NormProbe "LeftErrorL2NormEnergyProbeAxis2" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "LeftErrorAxis2";
+    probeOutputFile = "LeftErrorL2NormEnergyProbeAxis2.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+Movie "RightImageAxis2" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesRight2.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+TransposeConn "LeftErrorToV1Axis3" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "LeftErrorAxis3";
+    originalConnName = "V1ToLeftErrorAxis3";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+MomentumConn "V1ToLeftErrorAxis2" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "LeftImageAxis2";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "LeftErrorAxis2";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+TransposeConn "LeftErrorToV1Axis2" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "LeftErrorAxis2";
+    originalConnName = "V1ToLeftErrorAxis2";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+TransposeConn "RightErrorToV1Axis1" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "RightErrorAxis1";
+    originalConnName = "V1ToRightErrorAxis1";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+TransposeConn "RightErrorToV1Axis2" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "RightErrorAxis2";
+    originalConnName = "V1ToRightErrorAxis2";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+IdentConn "LeftReconToErrorAxis0" = {
+    channelCode = 1;
+    preLayerName = "LeftReconAxis0";
+    delay = [0];
+    postLayerName = "LeftErrorAxis0";
+};
+
+CloneConn "V1ToLeftReconAxis2" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToLeftErrorAxis2";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "LeftReconAxis2";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+L1NormProbe "V1L1NormEnergyProbe" = {
+    targetLayer = "V1";
+    probeOutputFile = "V1L1NormEnergyProbe.txt";
+    coefficient = 0.025;
+    energyProbe = "V1EnergyProbe";
+    textOutputFlag = true;
+};
+
+TransposeConn "LeftErrorToV1Axis0" = {
+    writeStep = -1;
+    channelCode = 0;
+    preLayerName = "LeftErrorAxis0";
+    originalConnName = "V1ToLeftErrorAxis0";
+    gpuGroupIdx = -1;
+    selfFlag = false;
+    receiveGpu = true;
+    writeCompressedCheckpoints = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "V1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = true;
+};
+
+ANNNormalizedErrorLayer "LeftErrorAxis2" = {
+    writeStep = 76999.75;
+    phase = 1;
+    AShift = 0;
+    mirrorBCflag = false;
+    nxScale = 1;
+    AMax = infinity;
+    InitVType = "ZeroV";
+    nf = 1;
+    useMask = false;
+    clearGSynInterval = 0;
+    updateGpu = false;
+    AMin = -infinity;
+    VThresh = -infinity;
+    initialWriteTime = 0;
+    sparseLayer = false;
+    valueBC = 0;
+    nyScale = 1;
+};
+
+CloneConn "V1ToLeftReconAxis1" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToLeftErrorAxis1";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "LeftReconAxis1";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+Movie "LeftImageAxis0" = {
+    writeStep = 76999.75;
+    inverseFlag = false;
+    phase = 0;
+    writeImages = 0;
+    mirrorBCflag = true;
+    nxScale = 1;
+    flipOnTimescaleError = true;
+    offsetAnchor = "br";
+    inputPath = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/input/inputImagesLeft0.txt";
+    padValue = 0;
+    displayPeriod = 400;
+    resetToStartOnLoop = false;
+    nf = 1;
+    writeFrameToTimestamp = true;
+    offsetX = 0;
+    batchMethod = "byImage";
+    updateGpu = false;
+    useImageBCflag = false;
+    sparseLayer = false;
+    normalizeStdDev = true;
+    autoResizeFlag = false;
+    normalizeLuminanceFlag = true;
+    initialWriteTime = 0;
+    offsetY = 0;
+    echoFramePathnameFlag = true;
+    jitterFlag = 0;
+    nyScale = 1;
+};
+
+CloneConn "V1ToLeftReconAxis0" = {
+    channelCode = 0;
+    preLayerName = "V1";
+    originalConnName = "V1ToLeftErrorAxis0";
+    receiveGpu = false;
+    selfFlag = false;
+    pvpatchAccumulateType = "convolve";
+    postLayerName = "LeftReconAxis0";
+    delay = [0];
+    convertRateToSpikeCount = false;
+    updateGSynFromPostPerspective = false;
+};
+
+L2NormProbe "RightErrorL2NormEnergyProbeAxis2" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "RightErrorAxis2";
+    probeOutputFile = "RightErrorL2NormEnergyProbeAxis2.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
+MomentumConn "V1ToLeftErrorAxis3" = {
+    writeStep = 76999.75;
+    channelCode = -1;
+    pvpatchAccumulateType = "convolve";
+    momentumMethod = "viscosity";
+    nxp = 32;
+    selfFlag = false;
+    triggerLayerName = "LeftImageAxis3";
+    sharedWeights = true;
+    keepKernelsSynchronized = true;
+    triggerOffset = 0;
+    postLayerName = "LeftErrorAxis3";
+    wMinInit = -1;
+    sparseFraction = 0.9;
+    normalize_cutoff = 0;
+    momentumTau = 100;
+    preLayerName = "V1";
+    numAxonalArbors = 1;
+    receiveGpu = false;
+    nyp = 32;
+    useMask = false;
+    normalizeOnInitialize = true;
+    momentumDecay = 0;
+    delay = [0];
+    convertRateToSpikeCount = false;
+    dWMax = 6;
+    normalizeMethod = "normalizeL2";
+    normalizeFromPostPerspective = false;
+    normalizeArborsIndividually = false;
+    rMinY = 0;
+    shrinkPatches = false;
+    rMinX = 0;
+    normalizeOnWeightUpdate = true;
+    nonnegativeConstraintFlag = false;
+    strength = 1;
+    minL2NormTolerated = 0;
+    writeCompressedCheckpoints = false;
+    initialWriteTime = 0;
+    plasticityFlag = true;
+    wMaxInit = 1;
+    weightInitType = "UniformRandomWeight";
+    updateGSynFromPostPerspective = false;
+};
+
+IdentConn "RightReconToErrorAxis0" = {
+    channelCode = 1;
+    preLayerName = "RightReconAxis0";
+    delay = [0];
+    postLayerName = "RightErrorAxis0";
+};
+
+RescaleConn "LeftImageToLeftErrorAxis0" = {
+    channelCode = 0;
+    preLayerName = "LeftImageAxis0";
+    delay = [0];
+    postLayerName = "LeftErrorAxis0";
+    scale = 0.018042195912176;
+};
+
+L2NormProbe "LeftErrorL2NormEnergyProbeAxis0" = {
+    energyProbe = "V1EnergyProbe";
+    targetLayer = "LeftErrorAxis0";
+    probeOutputFile = "LeftErrorL2NormEnergyProbeAxis0.txt";
+    coefficient = 0.125;
+    exponent = 2;
+    textOutputFlag = true;
+};
+
