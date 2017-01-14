@@ -35,7 +35,7 @@ local stopTime         = math.ceil((numImages  * numEpochs) / nbatch) * displayP
 local basisVectorFile  = nil;   --nil for initial weights, otherwise, specifies the weights file to load.
 local plasticityFlag   = true;  --Determines if we are learning weights or holding them constant
 
-local numBasisVectors  = 1 * 32 * 32 * 8;  --overcompleteness x (stride X) x (Stride Y) * (# color channels) * (2 if rectified) 
+local numBasisVectors  = 1/4 * 32 * 32 * 8;  --overcompleteness x (stride X) x (Stride Y) * (# color channels) * (2 if rectified) 
 local momentumTau      = 100;   --The momentum parameter. A single weight update will last for momentumTau timesteps.
 local dWMax            = 6;    --The learning rate
 local VThresh          = .02; --.025;  -- .005; --The threshold, or lambda, of the network

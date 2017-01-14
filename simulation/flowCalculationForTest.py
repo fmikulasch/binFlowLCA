@@ -10,12 +10,14 @@ from math import *
 
 number_points = 32 ** 2
 output_dimension = int(sqrt(number_points))
-image_dimension = 1500
+image_dimension = 900
 
-fov = 160.0
-camera_f = 2 * 47.6083  # blender calculated value
+fov = 158.0
+camera_f = 47.6083  # blender calculated value
 
 i2 = image_dimension / 2
+
+# dimension of cropped image
 nx0, ny0 = fisheye_old.new_c(i2, 0, camera_f, i2, i2)
 nx2, ny2 = fisheye_old.new_c(i2, image_dimension, camera_f, i2, i2)
 crop_dimension = ny2 - ny0
@@ -54,6 +56,7 @@ cv2.imwrite('map_on_distorted.png',
 # traverse folders
 folders = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
 folders = [folder + '/' for folder in folders]
+folders = sorted(folders)
 
 sides = ['left', 'right']
 for k in xrange(len(folders)):
@@ -103,12 +106,13 @@ for k in xrange(len(folders)):
                 upscale_sigma_color=25.5, speed_up_thr=10)"""
 
             matches = deepmatching(ims[0], ims[1])
-            allFlow = deepflow2(ims[0], ims[1], matches, '-middlebury')
+            allFlow = deepflow2(ims[0], ims[1], matches, '-sintel')  # -sintel -middlebury -kitti
 
             # apply blur
             # allFlow = cv2.GaussianBlur(allFlow,(9,9),0)
 
             # display flow
+            """
             hsv = np.zeros((allFlow.shape[0], allFlow.shape[1], 3), np.uint8)
             mag, ang = cv2.cartToPolar(allFlow[...,0], allFlow[...,1])
             hsv[...,0] = ang * 180 / np.pi / 2
@@ -116,7 +120,7 @@ for k in xrange(len(folders)):
             bgr = cv2.cvtColor(hsv,cv2.COLOR_HSV2BGR)
             cv2.imshow('flow', bgr)
             cv2.waitKey(0)
-            cv2.destroyAllWindows()
+            cv2.destroyAllWindows()"""
 
             # blacks for flow
             flow = [np.zeros((allFlow.shape[0], allFlow.shape[1])).astype(float)

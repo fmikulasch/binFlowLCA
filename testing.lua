@@ -18,7 +18,7 @@ inputPath = {
 }
 
 
-local nbatch           = 32;    --Batch size of learning
+local nbatch           = 1;    --Batch size of learning
 local nxScale          = 1; 
 local nyScale          = 1;
 local iSize            = 32;
@@ -29,7 +29,7 @@ local stride           = 1;
 
 local displayPeriod    = 400;   --Number of timesteps to find sparse approximation
 local numEpochs        = 1;     --Number of times to run through dataset
-local numImages        = 4; --Total number of images in dataset
+local numImages        = 8; --Total number of images in dataset
 local stopTime         = math.ceil((numImages  * numEpochs) / nbatch) * displayPeriod;
 
 checkpoint = "308000"
@@ -49,8 +49,8 @@ local weightInit = math.sqrt((1/iSize)*(1/iSize)*(1/3));
 
 local outputPath          = folder .. "testOutput/";
 local checkpointWriteDir  = folder .. "testOutput/checkpoints/";
-local checkpointPeriod = displayPeriod * 100; -- How often to write checkpoints. Was display*100
-local writeStep        = displayPeriod * 20; 
+local checkpointPeriod = displayPeriod; -- How often to write checkpoints. Was display*100
+local writeStep        = displayPeriod; 
 local initialWriteTime = displayPeriod;
 
 -- Base table variable to store
