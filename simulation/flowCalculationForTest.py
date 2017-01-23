@@ -12,7 +12,7 @@ number_points = 32 ** 2
 output_dimension = int(sqrt(number_points))
 image_dimension = 900
 
-fov = 158.0
+fov = 160.0
 camera_f = 47.6083  # blender calculated value
 
 i2 = image_dimension / 2
@@ -22,8 +22,6 @@ nx0, ny0 = fisheye_old.new_c(i2, 0, camera_f, i2, i2)
 nx2, ny2 = fisheye_old.new_c(i2, image_dimension, camera_f, i2, i2)
 crop_dimension = ny2 - ny0
 
-f = fisheye.focal_distance(fov=fov, image_dimension=crop_dimension)
-
 path = "../testInput/"
 pathForLua = "testInput/"
 point_file = open('points.txt', 'r')
@@ -32,13 +30,14 @@ imageNames = [[open(path + 'inputImagesLeft' +
               [open(path + 'inputImagesRight' +
                     str(i) + '.txt', 'w') for i in xrange(4)]]
 
+
 def convert_images(ims, left):
     if left:
         tmp = [i[:, 0:i.shape[1] / 2] for i in ims]
     else:
         tmp = [i[:, i.shape[1] / 2:i.shape[1]] for i in ims]
     """tmp = [cv2.cvtColor(i, cv2.COLOR_BGR2GRAY) for i in tmp]"""
-    tmp = [cv2.GaussianBlur(i,(5,5),0) for i in tmp]
+    #tmp = [cv2.GaussianBlur(i,(5,5),0) for i in tmp]
     return tmp
 
 
@@ -49,7 +48,7 @@ points = fisheye.load_sphere_coordinates(point_file, number_points)
 dist_map_x, dist_map_y = fisheye_old.calculate_maps(image_dimension, camera_f)
 # map from retina coordinate to distorted image
 retina_map_x, retina_map_y = fisheye.calculate_maps(
-    points, crop_dimension, fov=fov, camera_f=camera_f)
+    points, crop_dimension, image_dimension, fov=fov, camera_f=camera_f)
 cv2.imwrite('map_on_distorted.png',
             fisheye.show_map(retina_map_x, retina_map_y, crop_dimension, crop_dimension))
 
@@ -106,14 +105,14 @@ for k in xrange(len(folders)):
                 upscale_sigma_color=25.5, speed_up_thr=10)"""
 
             matches = deepmatching(ims[0], ims[1])
-            allFlow = deepflow2(ims[0], ims[1], matches, '-sintel')  # -sintel -middlebury -kitti
+            allFlow = deepflow2(ims[0], ims[1], matches, '-sintel -a 4 -g 1')  # -sintel -middlebury -kitti
 
             # apply blur
             # allFlow = cv2.GaussianBlur(allFlow,(9,9),0)
 
             # display flow
-            """
-            hsv = np.zeros((allFlow.shape[0], allFlow.shape[1], 3), np.uint8)
+
+            """hsv = np.zeros((allFlow.shape[0], allFlow.shape[1], 3), np.uint8)
             mag, ang = cv2.cartToPolar(allFlow[...,0], allFlow[...,1])
             hsv[...,0] = ang * 180 / np.pi / 2
             hsv[...,2] = cv2.normalize(mag,None,0,255,cv2.NORM_MINMAX)
@@ -151,6 +150,8 @@ for k in xrange(len(folders)):
             for axis in xrange(4):
                 out[s][axis] = ((out[s][axis] - minm) /
                                 (maxm - minm) * 255).astype('uint8')
+                """if folder == '0/':
+                    out[s][axis] = out[s][axis] * 0  # strange things would happen otherwise"""
                 name = folder + 'out_' + sides[s] + str(axis) + '.png'
                 cv2.imwrite(path + name, out[s][axis])
                 print(pathForLua + name, file=imageNames[s][axis])

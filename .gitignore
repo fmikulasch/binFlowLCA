@@ -3,3 +3,4 @@ scripts/*.png
 *.log
 simulation/~use/
 *.params
+analysis/

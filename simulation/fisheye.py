@@ -49,8 +49,8 @@ def focal_distance(fov,image_dimension):
 
     return f
 
-def calculate_maps(points_on_sphere, image_dimension=128.0, fov=160.0, camera_f=160):
-    f = focal_distance(fov,image_dimension)
+def calculate_maps(points_on_sphere, crop_dimension, image_dimension=128.0, fov=160.0, camera_f=160):
+    f = focal_distance(fov,crop_dimension) * 2
 
     # resulting square representation
     output_dim = int(sqrt(len(points_on_sphere)))
@@ -64,7 +64,9 @@ def calculate_maps(points_on_sphere, image_dimension=128.0, fov=160.0, camera_f=
         # get point on original image
         x,y = get_point_on_image(p, f, image_dimension)
         # from there get point on distorted image
-        c = fisheye_old.new_c(x, y, camera_f, image_dimension / 2, image_dimension / 2)
+        x,y = fisheye_old.new_c(x, y, camera_f, image_dimension / 2, image_dimension / 2)
+        # consider crop
+        c = (x + (crop_dimension - image_dimension) / 2,y + (crop_dimension - image_dimension) / 2)
         cs.append(c)
 
     for x in xrange(output_dim):

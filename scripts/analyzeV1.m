@@ -24,11 +24,12 @@ numFigures = 0;
 addpath('~/workspace/OpenPV/mlab/util'); 
 
 outputPath = '../testOutput/'
+savePath = '../analysis/'
 side = {'Left' , 'Right'};
 
 for s = 1:1
    for q = 1:1
-	fflush(1);
+	
 	inputpvp = strjoin([side(s) , 'ImageAxis', num2str(q) ,'.pvp'], '')
 	errpvp = strjoin([side(s) , 'ErrorAxis', num2str(q) ,'.pvp'], '')
 	V1pvp = 'V1.pvp'
@@ -57,7 +58,7 @@ for s = 1:1
 	   p = p*255/max(p(:));
 	   p = permute(p,[2 1 3]);
 	   p = uint8(p);
-	   outFile = ['Ganglion_' sprintf('%.08d',t) '.png']
+	   outFile = [savePath,'Ganglion_' sprintf('%.08d',t) '.png']
 	   imwrite(p,outFile);
 	end
 	clear inputdata;
@@ -82,7 +83,7 @@ for s = 1:1
 	   p = p*255/max(p(:));
 	   p = permute(p,[2 1 3]);
 	   p = uint8(p);
-	   outFile = ['Recon_' sprintf('%.08d',t) '.png']
+	   outFile = [savePath,'Recon_' sprintf('%.08d',t) '.png']
 	   imwrite(p,outFile);
 	end
 	clear recondata;
@@ -108,21 +109,21 @@ for s = 1:1
 	      t_err(i) = errdata{i}.time;
 	      err(i) = std(errdata{i}.values(:))/inputstd(i);
 	   end
-	   numFigures++;
+	   numFigures=numFigures+1;
 	   h_err = figure(numFigures);
 	   plot(t_err,err);
-	   outFile = ['RMS_Error_' sprintf('%.08d',t_err(length(t_err))) '.png']
-	   print(h_err,outFile);
+	   outFile = [savePath,'RMS_Error_' sprintf('%.08d',t_err(length(t_err))) '.png']
+	   saveas(h_err,outFile);
 	else
 	   for i = 1:size(errdata,1)
 	      t_err(i) = errdata{i}.time;
 	      err(i) = std(errdata{i}.values(:));
 	   end
-	   numFigures++;
+	   numFigures=numFigures+1;
 	   h_err = figure(numFigures);
 	   plot(t_err,err);
-	   outFile = ['Std_Error_' sprintf('%.08d',t_err(length(t_err))) '.png']
-	   print(h_err,outFile);
+	   outFile = [savePath,'Std_Error_' sprintf('%.08d',t_err(length(t_err))) '.png']
+	   saveas(h_err,outFile);
 	end
 	clear errdata;
 
@@ -150,17 +151,17 @@ for s = 1:1
 	      t_V1_sortedweights = t_V1(i);
 	   end   
 	end
-	numFigures++;
+	numFigures=numFigures+1;
 	h_V1 = figure(numFigures);
 	plot(t_V1,V1sparsity);
-	outFile = ['V1_Sparsity_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
-	print(h_V1,outFile);
+	outFile = [savePath,'V1_Sparsity_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
+	saveas(h_V1,outFile);
 
-	numFigures++;
+	numFigures=numFigures+1;
 	h_V1featvals = figure(numFigures);
 	bar(V1meanfeaturevals);
-	outFile = ['MeanFeatureValues_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
-	print(h_V1featvals,outFile);
+	outFile = [savePath,'MeanFeatureValues_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
+	saveas(h_V1featvals,outFile);
 	clear V1data;
 
 
@@ -176,14 +177,14 @@ for s = 1:1
 	end
 
 	if (syncedtimes)
-	   numFigures++;
+	   numFigures=numFigures+1;
 	   h_ErrorvsSparse = figure(numFigures);
 	   c=linspace(0,1,length(err));
 	   scatter(V1sparsity(1:length(err)),err,[],c);
 	   xlabel('Sparsity');
 	   ylabel('Error');
-	   outFile = ['ErrorVsSparse_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
-	   print(h_ErrorvsSparse,outFile);
+	   outFile = [savePath,'ErrorVsSparse_' sprintf('%.08d',t_V1(length(t_V1))) '.png']
+	   saveas(h_ErrorvsSparse,outFile);
 	end
 
 
@@ -196,7 +197,6 @@ for s = 1:1
            for p = 1:4
 		weightspvp = strjoin(['V1To', side(o) , 'ErrorAxis', num2str(p-1) ,'.pvp'], '');
 		weightspvp
-		fflush(1);
 		fid = fopen([outputPath,weightspvp],'r');
 		weightsheaders{o,p} = readpvpheader(fid);
 		fclose(fid);
@@ -206,13 +206,13 @@ for s = 1:1
 		weightsdatas{o,p} = readpvpfile([outputPath,weightspvp],10,weightsnumframes,weightsnumframes);
 	   end
 	end
-	
-	weightsnumpatches = size(weightsdatas{1,1}{size(weightsdatas{1,1},1)}.values{1})(4)
+	z = size(weightsdatas{1,1}{size(weightsdatas{1,1},1)}.values{1});
+	weightsnumpatches = z(4)
 	num_patches_rows = floor(sqrt(weightsnumpatches));
 	num_patches_cols = ceil(weightsnumpatches / num_patches_rows);
 	minmaxweights = cell(weightsnumpatches,2);
-	minmaxweights(:,1) = 1000000;
-	minmaxweights(:,2) = 0;
+	minmaxweights(:,1) = num2cell(1000000);
+	minmaxweights(:,2) = num2cell(0);
 
 	for o = 1:2
            for p = 1:4
@@ -252,7 +252,7 @@ for s = 1:1
 		                      ((col_ndx-1)*size(patch,2)+1):col_ndx*size(patch,2),:) = ...
 		   patch;
 		end
-		imwrite(uint8(weight_patch_array), ['weights', num2str(4*(o-1)+p), '.png'], 'png');
+		imwrite(uint8(weight_patch_array), [savePath,'weights', num2str(4*(o-1)+p), '.png'], 'png');
 		weight_patch_array = ...
 		zeros(num_patches_rows*size(patch,1), num_patches_cols*size(patch,2), size(patch,3));
 	   end

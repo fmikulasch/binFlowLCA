@@ -2,6 +2,7 @@ package.path = package.path .. ";" .. "/home/neuralnetlab/workspace/OpenPV/param
 local pv = require "PVModule"
 
 folder = "/home/neuralnetlab/workspace/Projects/BinFlowLCA/"
+outFolder = "/media/Data/"
 leftInputPath       = {};
 leftInputPath[0]    = folder .. "testInput/inputImagesLeft0.txt";
 leftInputPath[1]    = folder .. "testInput/inputImagesLeft1.txt";
@@ -29,14 +30,14 @@ local stride           = 1;
 
 local displayPeriod    = 400;   --Number of timesteps to find sparse approximation
 local numEpochs        = 1;     --Number of times to run through dataset
-local numImages        = 8; --Total number of images in dataset
+local numImages        = 9 + 4 * 8; --Total number of images in dataset
 local stopTime         = math.ceil((numImages  * numEpochs) / nbatch) * displayPeriod;
 
 checkpoint = "308000"
 local weightsFolder  = folder .. "output/checkpoints/Checkpoint"  .. checkpoint .. "/";   --nil for initial weights, otherwise, specifies the weights file to load.
 local plasticityFlag   = false;  --Determines if we are learning weights or holding them constant
 
-local numBasisVectors  = 1 * 32 * 32 * 8;  --overcompleteness x (stride X) x (Stride Y) * (# color channels) * (2 if rectified) 
+local numBasisVectors  = 1/2 * 32 * 32 * 8;  --overcompleteness x (stride X) x (Stride Y) * (# color channels) * (2 if rectified) 
 local momentumTau      = 100;   --The momentum parameter. A single weight update will last for momentumTau timesteps.
 local dWMax            = 6;    --The learning rate
 local VThresh          = .02; --.025;  -- .005; --The threshold, or lambda, of the network
@@ -47,10 +48,10 @@ local VWidth           = 0;
 local timeConstantTau = 100; --The integration tau for sparse approximation
 local weightInit = math.sqrt((1/iSize)*(1/iSize)*(1/3));
 
-local outputPath          = folder .. "testOutput/";
-local checkpointWriteDir  = folder .. "testOutput/checkpoints/";
+local outputPath          = outFolder .. "testOutput/";
+local checkpointWriteDir  = outFolder .. "testOutput/checkpoints/";
 local checkpointPeriod = displayPeriod; -- How often to write checkpoints. Was display*100
-local writeStep        = displayPeriod; 
+local writeStep        = displayPeriod; -- dP * 2 to skip zeroV images while testing
 local initialWriteTime = displayPeriod;
 
 -- Base table variable to store
@@ -103,11 +104,11 @@ groupType = "HyPerLCALayer";
     phase                               = 2;
     mirrorBCflag                        = false;
     valueBC                             = 0;
-    InitVType                           = "ConstantV";
+    InitVType                           = "ZeroV";
     --minV                                = -1;
     --maxV                                = 0.02;
     valueV                              = VThresh; --
-    triggerLayerName                    = nil;
+    triggerLayerName               	= nil;
     writeStep                           = writeStep;
     initialWriteTime                    = initialWriteTime;
     sparseLayer                         = true;
